@@ -1,0 +1,25 @@
+version: '3'
+services:
+    db:
+        image: postgres:12.0-alpine
+        tty: true
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./db/init:/docker-entrypoint-initdb.d
+        environment:
+            - POSTGRES_USER=test01
+            - POSTGRES_PASSWORD=test01
+            - POSTGRES_DB=test01
+
+    webapi:
+        build:
+            context: webapi
+        tty: true
+        links:
+            - "db"
+        ports:
+            - "5000:5000"
+
+
+   
